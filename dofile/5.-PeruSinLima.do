@@ -3,7 +3,7 @@
 *****************
 cd "$dataset"
 **database
-use "dbase.dta", clear
+use "dbasedep.dta", clear
 drop if id==15
 rename (id x_c y_c) (_ID _X _Y)
 sort _ID

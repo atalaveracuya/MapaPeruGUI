@@ -4,7 +4,7 @@ cd "$dataset"
 *spmap using coor_titicaca.dta, id(id)
 
    *coord xy mercator
-use coor_titicaca.dta,clear 
+use coortiticaca.dta,clear 
 geo2xy _Y _X , replace proj(mercator)
 ret list
 replace _Y = _Y / 1000

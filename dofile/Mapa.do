@@ -3,10 +3,10 @@
 *De: Andrés Talavera Cuya @atalaveracuya
  
 clear all
-global shapefile  "D:\ANDRES\Documentos\GitHub\Mapa\shapefile"
-global dofile     "D:\ANDRES\Documentos\GitHub\Mapa\dofile"
-global dataset    "D:\ANDRES\Documentos\GitHub\Mapa\dataset"
-global graficos   "D:\ANDRES\Documentos\GitHub\Mapa\graficos"
+global shapefile  "D:\ANDRES\Documentos\GitHub\MapaPeruGUI\shapefile"
+global dofile     "D:\ANDRES\Documentos\GitHub\MapaPeruGUI\dofile"
+global dataset    "D:\ANDRES\Documentos\GitHub\MapaPeruGUI\dataset"
+global graficos   "D:\ANDRES\Documentos\GitHub\MapaPeruGUI\graficos"
 
 do "${dofile}//1.-ImportShpStata.do"
 do "${dofile}//2.-ProvdeLima.do"
@@ -41,7 +41,7 @@ polygon(data("xycoor_titicaca.dta") osize(0.3) fcolor(blue) ocolor(blue)) line(d
 #delimit cr	
 graph export "${graficos}//map1.png", width(1000) replace
    
-   
+
 *Mapa básico con nombres y porcentaje 
 
 use "xydatabase.dta", clear
@@ -59,7 +59,7 @@ graph export "${graficos}//map2.png", width(1000) replace
 
 use "xydatabase.dta", clear
 #delimit ;
-spmap using "xy_coor_with_squares.dta", id(_ID) ocolor(none ..) 
+spmap using "xy_coor_with_squares.dta", id(_ID) ocolor(gs6) 
 polygon(data("xycoor_titicaca.dta") osize(0.3) fcolor(blue) ocolor(blue)) line(data("xy_coor_with_squares.dta") size(0.2) color(black) pattern(shortdash))
 label(data("xy_dbase_ubicaciones.dta") xcoord(x_label) ycoord(y_label)
     by(lgroup) label(s) color(blue) size(*0.6 ..) pos(0 6) length(20)) 
@@ -107,7 +107,6 @@ label(data("xy_dbase_ubicaciones.dta") xcoord(x_label) ycoord(y_label)
 #delimit cr	
 graph export "${graficos}//map5.png", width(1000) replace
    
-
 ***REFERENCIAS:
 /*
 Pisati, M. (2007). spmap: Stata Module to Visualize Spatial Data. Version 1.2.0. Statistical Software Components S456812. Boston College Department of Economics. https://ideas.repec.org/c/boc/bocode/s456812.html .
