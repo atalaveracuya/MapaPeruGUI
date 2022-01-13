@@ -5,8 +5,8 @@
 cd "$dataset"
 **database
 use "dbasedep.dta", clear
-keep    if id==7
-rename (id x_c y_c) (_ID _X _Y)
+keep    if _ID==7
+rename (x_c y_c) (_X _Y)
 sort _ID
 save "dbaseCallao.dta", replace
 

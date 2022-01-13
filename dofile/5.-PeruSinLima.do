@@ -4,8 +4,8 @@
 cd "$dataset"
 **database
 use "dbasedep.dta", clear
-drop if id==15
-rename (id x_c y_c) (_ID _X _Y)
+drop if _ID==15
+rename (x_c y_c) (_X _Y)
 sort _ID
 save "perusinlimadbase.dta", replace
 

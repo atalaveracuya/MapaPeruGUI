@@ -5,8 +5,8 @@
 cd "$dataset"
 	*database
 use dbaseprov,clear
-keep if id==129
-rename (id x_c y_c) (_ID _X _Y)
+keep if _ID==129
+rename (x_c y_c) (_X _Y)
 sort _ID
 replace NOMBPROV="PROVINCIA LIMA" if NOMBPROV=="LIMA"
 save "dbaseprovlima.dta", replace

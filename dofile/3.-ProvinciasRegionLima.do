@@ -6,7 +6,7 @@ cd "$dataset"
 *database
 use dbaseprov,clear
 keep if NOMBDEP=="LIMA" & NOMBPROV!="LIMA"
-rename (id x_c y_c) (_ID _X _Y)
+rename (x_c y_c) (_X _Y)
 sort _ID
 save "dbaseprovregionlima.dta", replace
 

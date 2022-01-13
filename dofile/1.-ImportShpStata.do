@@ -18,3 +18,11 @@ clear
 shp2dta using "LAGO_TITICACA_GEO.shp", ///
     data("${dataset}\dbasetiticaca.dta") coor("${dataset}\coortiticaca.dta") genid(id) gencentroids(c) replace
 	
+
+cd "$dataset"	
+foreach x in dep prov dist titicaca{ 
+use dbase`x',clear 
+rename id _ID 
+save,replace
+}
+	

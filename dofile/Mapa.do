@@ -15,17 +15,20 @@ do "${dofile}//4.-RegionLima.do"
 do "${dofile}//5.-PeruSinLima.do"
 do "${dofile}//6.-ProvConstCallao.do"
 do "${dofile}//7.-PeruUnido.do"
-do "${dofile}//8.-PeruUnido_xy.do"
-do "${dofile}//9.-LagoTiticaca.do"
-do "${dofile}//10.-Atributos.do"
-do "${dofile}//11.-Ubicaciones.do"
-do "${dofile}//12.-Poligonos.do"
-do "${dofile}//13.-Conectores.do"
+do "${dofile}//8.-LagoTiticaca.do"
+do "${dofile}//9.-Atributos.do"
+do "${dofile}//10.-Ubicaciones.do"
+do "${dofile}//11.-Poligonos.do"
+do "${dofile}//12.-Conectores.do"
 ************
 
 
 *Visualizando
+
 cd "$dataset"
+
+** Mapas a nivel departamental: 
+
 *Mapa básico hecho a partir de coordenadas proyectadas:
 use "xydatabase.dta", clear
 spmap using "xycoord.dta", id(_ID) ocolor(none ..) ///
@@ -106,7 +109,101 @@ label(data("xy_dbase_ubicaciones.dta") xcoord(x_label) ycoord(y_label)
     by(lgroup) label(s) color(blue) size(*0.6 ..) pos(0 6) length(20)) ;
 #delimit cr	
 graph export "${graficos}//map5.png", width(1000) replace
-   
+  
+  
+**Mapa a nivel provincial:
+
+*con legendas ; **Adaptado de: Fahad Mirza*** 
+
+use "dbaseprov.dta", clear
+merge 1:1 _ID using "atributo-provincias.dta", assert(match) nogen
+
+count if pc>=0.1 & pc<=9.9999
+local leg0="`r(N)'" + " " + "provincias"
+
+count if pc>=10.0 & pc<=19.9999
+local leg1="`r(N)'" + " " + "provincias" 
+
+count if pc>=20.0 & pc<=39.9999
+local leg2="`r(N)'" + " " + "provincias"
+
+count if pc>=40.0 & pc<=59.9999
+local leg3="`r(N)'" + " " + "provincias"
+
+sum pc  
+count if pc>=60.0 & pc<=`r(max)'
+local leg4="`r(N)'" + " " + "provincias"
+sum pc
+local fmt_max : display %4.1f `r(max)'
+
+#delimit ;
+grmap pc using "coorprov.dta", id(_ID) ocolor(none ..) mosize(0.001)
+polygon(data("coortiticaca.dta") osize(0.3) fcolor(blue) ocolor(blue)) 
+    caption("Nota: Elaboración propia", size(*0.5) color(gs10))
+    fcolor("255 251 218" "255 236 147" "250 195 103" "234 96 24" "229 27 27")
+    osize(0.01)
+    legenda(on)
+    legstyle(3)
+    legend(ring(0) position(7))
+    plotregion(icolor(white))
+    graphregion(icolor(white))
+    legtitle("Porcentaje" )
+    clbreaks(0.1 9.9 19.9 39.9 59.9 `r(max)')
+    clmethod(custom)
+    legend(label(2 "0.1 - 9.9 (`leg0')") label(3 "10.0 - 19.9 (`leg1')")  label(4 "20.0 - 39.9 (`leg2')")  label(5 "40 - 59.9 (`leg3')") label(6 "60.0 - `fmt_max' (`leg4')") margin(1 1 1 1))
+label(data("dbasedep.dta") xcoord(x_c) ycoord(y_c) by(_ID) label(NOMBDEP) color(black) size(*0.6 ..) pos(0 6) length(25))
+line(data("coordep.dta") size(0.2) color(black));
+#delimit cr	
+graph export "${graficos}//map6.png", width(1000) replace
+ 
+ 
+**Mapa a nivel distrital: 
+
+* Con legendas ; **Adaptado de: Fahad Mirza*** 
+
+use "dbasedist.dta", clear
+merge 1:1 _ID using "atributo-distritos.dta", assert(match) nogen
+
+count if pc>=0.1 & pc<=9.9999
+local leg0="`r(N)'" + " " + "distritos"
+
+count if pc>=10.0 & pc<=19.9999
+local leg1="`r(N)'" + " " + "distritos" 
+
+count if pc>=20.0 & pc<=39.9999
+local leg2="`r(N)'" + " " + "distritos"
+
+count if pc>=40.0 & pc<=59.9999
+local leg3="`r(N)'" + " " + "distritos"
+
+sum pc  
+count if pc>=60.0 & pc<=`r(max)'
+local leg4="`r(N)'" + " " + "distritos"
+sum pc
+local fmt_max : display %4.1f `r(max)'
+
+#delimit ;
+grmap pc using "coordist.dta", id(_ID) ocolor(none ..) mosize(0.001)
+polygon(data("coortiticaca.dta") osize(0.3) fcolor(blue) ocolor(blue)) 
+    caption("Nota: Elaboración propia", size(*0.5) color(gs10))
+    fcolor("255 251 218" "255 236 147" "250 195 103" "234 96 24" "229 27 27")
+    osize(0.01)
+    legenda(on)
+    legstyle(3)
+    legend(ring(0) position(7))
+    plotregion(icolor(white))
+    graphregion(icolor(white))
+    legtitle("Porcentaje" )
+    clbreaks(0.1 9.9 19.9 39.9 59.9 `r(max)')
+    clmethod(custom)
+    legend(label(2 "0.1 - 9.9 (`leg0')") label(3 "10.0 - 19.9 (`leg1')")  label(4 "20.0 - 39.9 (`leg2')")  label(5 "40 - 59.9 (`leg3')") label(6 "60.0 - `fmt_max' (`leg4')") margin(1 1 1 1))
+label(data("dbasedep.dta") xcoord(x_c) ycoord(y_c) by(_ID) label(NOMBDEP) color(black) size(*0.6 ..) pos(0 6) length(25))
+line(data("coordep.dta") size(0.2) color(black));
+#delimit cr	
+graph export "${graficos}//map7.png", width(1000) replace
+  
+  
+
 ***REFERENCIAS:
 /*
 Pisati, M. (2007). spmap: Stata Module to Visualize Spatial Data. Version 1.2.0. Statistical Software Components S456812. Boston College Department of Economics. https://ideas.repec.org/c/boc/bocode/s456812.html .
