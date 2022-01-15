@@ -212,7 +212,7 @@ use "dbasemzn-150132.dta", clear
 describe
 
 * Mapa mudo (sin información)
-spmap using coormzn-150132.dta, id(_ID) fcolor(olive_teal) note("San Juan de Lurigancho, Lima")
+spmap using coormzn-150132.dta, id(_ID) fcolor(olive_teal) note("Nota: San Juan de Lurigancho, Lima." " " "Shapefile tomado de https://www.geogpsperu.com/")
 graph export "${graficos}//map08.png", width(1000) replace
   
 * Ejemplo para graficar sólo una zona censal 
@@ -260,7 +260,7 @@ local fmt_max : display %4.1f `r(max)'
 
 #delimit ;
 grmap pc using "coormzn-150132.dta", id(_ID) ocolor(none ..) mosize(0.001)
-    caption("Nota: Elaboración propia. Shapefile tomado de https://www.geogpsperu.com/", size(*0.5) color(gs10))
+    note("San Juan de Lurigancho, Lima. Elaboración propia. Shapefile tomado de https://www.geogpsperu.com/", size(*0.5) color(black))
     fcolor("255 251 218" "255 236 147" "250 195 103" "234 96 24" "229 27 27")
     osize(0.01)
     legenda(on)
