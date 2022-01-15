@@ -164,6 +164,7 @@ graph export "${graficos}//map6.png", width(1000) replace
 use "dbasedist.dta", clear
 merge 1:1 _ID using "atributo-distritos.dta", assert(match) nogen
 
+
 count if pc>=0.1 & pc<=9.9999
 local leg0="`r(N)'" + " " + "distritos"
 
@@ -203,6 +204,79 @@ line(data("coordep.dta") size(0.2) color(black));
 graph export "${graficos}//map7.png", width(1000) replace
   
   
+**Mapa a nivel manzanas - San Juan de Lurigancho -shapefile tomado de www.geogpsperu.com  Descarga de shapefile https://drive.google.com/file/d/1UfVZrMQ91rYv9f5zhu7Ip6y5kPKYuM1r/view
+
+*Capa de manzana censal
+ 
+use "dbasemzn-150132.dta", clear
+describe
+
+* Mapa mudo (sin información)
+spmap using coormzn-150132.dta, id(_ID) fcolor(olive_teal) note("San Juan de Lurigancho, Lima")
+graph export "${graficos}//map08.png", width(1000) replace
+  
+* Ejemplo para graficar sólo una zona censal 
+keep if ZONA=="07000"
+spmap using coormzn-150132.dta, id(_ID) fcolor(olive_teal) note("Zona Censal 07000 San Juan de Lurigancho , Lima")
+graph export "${graficos}//map09.png", width(1000) replace
+   
+/* Ahora se necesita incorporar la información de "atributos" para generar gráficos: */
+
+**************************
+**límite distrital 
+*para fines censales**
+	*database
+use dbasedist,clear
+*gen UBIGEO=CCDD+CCPP+CCDI
+keep if UBIGEO=="150132"
+
+use coordist.dta,clear
+keep if _ID==916
+save coor-SJL,replace 
+*************************
+
+
+use "dbasemzn-150132.dta", clear
+merge 1:1 _ID using "atributo-manzanas.dta", assert(match) nogen
+
+sum pc  
+count if pc>=0.1 & pc<=9.9999
+local leg0="`r(N)'" + " " + "manzanas"
+
+count if pc>=10.0 & pc<=19.9999
+local leg1="`r(N)'" + " " + "manzanas" 
+
+count if pc>=20.0 & pc<=39.9999
+local leg2="`r(N)'" + " " + "manzanas"
+
+count if pc>=40.0 & pc<=59.9999
+local leg3="`r(N)'" + " " + "manzanas"
+
+sum pc  
+count if pc>=60.0 & pc<=`r(max)'
+local leg4="`r(N)'" + " " + "manzanas"
+sum pc
+local fmt_max : display %4.1f `r(max)'
+
+#delimit ;
+grmap pc using "coormzn-150132.dta", id(_ID) ocolor(none ..) mosize(0.001)
+    caption("Nota: Elaboración propia. Shapefile tomado de https://www.geogpsperu.com/", size(*0.5) color(gs10))
+    fcolor("255 251 218" "255 236 147" "250 195 103" "234 96 24" "229 27 27")
+    osize(0.01)
+    legenda(on)
+    legstyle(3)
+    legend(ring(2) position(6))
+    plotregion(icolor(white))
+    graphregion(icolor(white))
+    legtitle("Porcentaje" )
+    clbreaks(0.1 9.9 19.9 39.9 59.9 `r(max)')
+    clmethod(custom)
+    legend(label(2 "0.1 - 9.9 (`leg0')") label(3 "10.0 - 19.9 (`leg1')")  label(4 "20.0 - 39.9 (`leg2')")  label(5 "40 - 59.9 (`leg3')") label(6 "60.0 - `fmt_max' (`leg4')") margin(1 1 1 1))
+line(data("coor-SJL.dta") size(0.2) color(black));
+#delimit cr	
+graph export "${graficos}//map10.png", width(1000) replace
+
+
 
 ***REFERENCIAS:
 /*

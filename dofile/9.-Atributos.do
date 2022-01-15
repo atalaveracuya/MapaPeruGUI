@@ -35,4 +35,10 @@ save atributo-provincias,replace
 use "dbasedist.dta", clear
 gen pc = runiform(0.1,80)
 replace pc=round(pc, 0.1)
-save atributo-distritos,replace  
+save atributo-distritos,replace 
+
+*Para nivel de manzanas  
+use "dbasemzn-150132.dta", clear
+gen pc = runiform(0.1,80)
+replace pc=round(pc, 0.1)
+save atributo-manzanas,replace   
