@@ -28,7 +28,7 @@ input float _ID str20 AMBITO float(x_anchor y_anchor x_label y_label)
  12 "JUNIN"           12 -1284   12 -1284
  13 "LA LIBERTAD"   -376  -878 -376  -878
  14 "LAMBAYEQUE"    -538  -660 -538  -660
-129 "PROVINCIA LIMA" -280 -1390 -280 -1390
+129 "LIMA"          -260 -1390 -260 -1390
  16 "LORETO"          62  -455   62  -455
  17 "MADRE DE DIOS"  495 -1334  495 -1334
  18 "MOQUEGUA"       462 -1892  462 -1892
@@ -42,7 +42,7 @@ input float _ID str20 AMBITO float(x_anchor y_anchor x_label y_label)
  25 "UCAYALI"        173 -1068  173 -1068
 end
 
-
+*Lima       -280 -1390 -280 -1390
 *lambayeque -538  -660 -538  -660
 *region lima -240 -1212 -240 -1212
 

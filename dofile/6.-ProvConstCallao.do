@@ -14,4 +14,5 @@ save "dbaseCallao.dta", replace
 use coordep.dta,clear
 keep if _ID==7
 sort _ID
-save coor_callao,replace 
+save coor_callao,replace
+

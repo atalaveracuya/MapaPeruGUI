@@ -8,7 +8,7 @@ use dbaseprov,clear
 keep if _ID==129
 rename (x_c y_c) (_X _Y)
 sort _ID
-replace NOMBPROV="PROVINCIA LIMA" if NOMBPROV=="LIMA"
+replace NOMBPROV="LIMA" if NOMBPROV=="LIMA"
 save "dbaseprovlima.dta", replace
 
     *coordenadas

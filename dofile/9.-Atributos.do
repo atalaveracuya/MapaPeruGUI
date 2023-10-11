@@ -5,20 +5,27 @@
 *Para nivel departamental 
 
 cd "$dataset"
-use xydatabase.dta,clear 
-gen pc = runiform(-20,90)
-replace pc=round(pc, 0.1)
-gen spc =string(pc) 
 
-replace spc = subinstr(spc, ".", ",", .)
-replace spc = subinstr(spc, "-", "", .)
-replace spc=spc+",0" if ~strpos(spc,",")
-replace spc ="0" + spc  if (pc>0 & pc<1)
-replace spc ="0" + spc  if (pc<0 & pc>-1)
 
-replace spc ="＋" + "" + spc  if pc>0
-replace spc ="－" + "" + spc  if pc<0
-replace spc = " " + spc + " "
+use atributo.dta ,clear 
+
+dir*dta 
+use horas_agua.dta,clear 
+gen  _ID=.
+replace _ID=rDpto2
+replace _ID=129 if rDpto2==15
+replace _ID=130 if rDpto2==16 
+
+forvalues i=16/25 {
+local j= `i'+1
+replace _ID=`i' if _ID==`j' 
+}
+
+merge 1:1 _ID using xydatabase.dta
+drop _merge 
+replace horas_dia=round(horas_dia)
+gen spc =string(horas_dia) 
+
 save atributo.dta,replace  
 
 
